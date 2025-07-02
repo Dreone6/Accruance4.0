@@ -13,6 +13,9 @@ import AnalyticsPage from './pages/AnalyticsPage'
 import BudgetsPage from './pages/BudgetsPage'
 import ReportsPage from './pages/ReportsPage'
 import SettingsPage from './pages/SettingsPage'
+import DonationsPage from './pages/DonationsPage'
+import SuccessPage from './pages/SuccessPage'
+import CancelPage from './pages/CancelPage'
 import Layout from './components/Layout'
 import LoadingSpinner from './components/LoadingSpinner'
 
@@ -66,6 +69,18 @@ function App() {
           </PublicRoute>
         } />
         
+        {/* Payment Result Pages */}
+        <Route path="/success" element={
+          <ProtectedRoute>
+            <SuccessPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/cancel" element={
+          <ProtectedRoute>
+            <CancelPage />
+          </ProtectedRoute>
+        } />
+        
         {/* Protected Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
@@ -106,6 +121,13 @@ function App() {
           <ProtectedRoute>
             <Layout>
               <ReportsPage />
+            </Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/donations" element={
+          <ProtectedRoute>
+            <Layout>
+              <DonationsPage />
             </Layout>
           </ProtectedRoute>
         } />

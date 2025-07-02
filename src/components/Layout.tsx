@@ -11,7 +11,8 @@ import {
   LogOut,
   Menu,
   X,
-  MessageCircle
+  MessageCircle,
+  Heart
 } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import toast from 'react-hot-toast'
@@ -24,6 +25,7 @@ const navigation = [
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Budgets', href: '/budgets', icon: Target },
   { name: 'Reports', href: '/reports', icon: FileText },
+  { name: 'Donations', href: '/donations', icon: Heart },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]
 
