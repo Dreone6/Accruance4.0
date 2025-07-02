@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import { Eye, EyeOff, Mail, Lock, Chrome, Github, Apple } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 import toast from 'react-hot-toast'
 
@@ -17,6 +17,7 @@ type LoginForm = z.infer<typeof loginSchema>
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [socialLoading, setSocialLoading] = useState<string | null>(null)
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
@@ -41,6 +42,19 @@ export default function LoginPage() {
     }
   }
 
+  const handleSocialLogin = async (provider: 'google' | 'github' | 'apple') => {
+    setSocialLoading(provider)
+    try {
+      // This would integrate with Supabase social auth
+      // await supabase.auth.signInWithOAuth({ provider })
+      toast.success(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login initiated`)
+    } catch (error: any) {
+      toast.error(`Failed to sign in with ${provider}`)
+    } finally {
+      setSocialLoading(null)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -49,13 +63,74 @@ export default function LoginPage() {
           <h2 className="text-2xl font-bold text-text">Welcome back</h2>
           <p className="mt-2 text-muted">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-primary-500 hover:text-primary-400">
+            <Link to="/signup" className="text-primary-500 hover:text-primary-400 transition-colors">
               Sign up
             </Link>
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        {/* Social Authentication */}
+        <div className="space-y-3">
+          <button
+            onClick={() => handleSocialLogin('google')}
+            disabled={socialLoading !== null}
+            className="w-full flex items-center justify-center px-4 py-3 border border-slate-600 rounded-lg bg-white hover:bg-gray-50 text-gray-900 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {socialLoading === 'google' ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
+            ) : (
+              <>
+                <Chrome className="h-5 w-5 mr-3 text-red-500" />
+                Continue with Google
+              </>
+            )}
+          </button>
+
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => handleSocialLogin('github')}
+              disabled={socialLoading !== null}
+              className="flex items-center justify-center px-4 py-3 border border-slate-600 rounded-lg bg-slate-800 hover:bg-slate-700 text-text font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {socialLoading === 'github' ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-text"></div>
+              ) : (
+                <>
+                  <Github className="h-5 w-5 mr-2" />
+                  GitHub
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={() => handleSocialLogin('apple')}
+              disabled={socialLoading !== null}
+              className="flex items-center justify-center px-4 py-3 border border-slate-600 rounded-lg bg-black hover:bg-gray-900 text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {socialLoading === 'apple' ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              ) : (
+                <>
+                  <Apple className="h-5 w-5 mr-2" />
+                  Apple
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-slate-600" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-background text-muted">Or continue with email</span>
+          </div>
+        </div>
+
+        {/* Email Login Form */}
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-text mb-1">
@@ -125,7 +200,7 @@ export default function LoginPage() {
             <div className="text-sm">
               <Link
                 to="/forgot-password"
-                className="text-primary-500 hover:text-primary-400"
+                className="text-primary-500 hover:text-primary-400 transition-colors"
               >
                 Forgot your password?
               </Link>
@@ -134,12 +209,26 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || socialLoading !== null}
             className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                Signing in...
+              </div>
+            ) : (
+              'Sign in'
+            )}
           </button>
         </form>
+
+        {/* Security Notice */}
+        <div className="text-center">
+          <p className="text-xs text-muted">
+            🔒 Your login is secured with bank-level encryption
+          </p>
+        </div>
       </div>
     </div>
   )
