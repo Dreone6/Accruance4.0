@@ -13,7 +13,7 @@ import AnalyticsPage from './pages/AnalyticsPage'
 import BudgetsPage from './pages/BudgetsPage'
 import ReportsPage from './pages/ReportsPage'
 import SettingsPage from './pages/SettingsPage'
-import DonationsPage from './pages/DonationsPage'
+import PricingPage from './pages/PricingPage'
 import SuccessPage from './pages/SuccessPage'
 import CancelPage from './pages/CancelPage'
 import Layout from './components/Layout'
@@ -53,6 +53,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route path="/login" element={
           <PublicRoute>
             <LoginPage />
@@ -121,13 +122,6 @@ function App() {
           <ProtectedRoute>
             <Layout>
               <ReportsPage />
-            </Layout>
-          </ProtectedRoute>
-        } />
-        <Route path="/donations" element={
-          <ProtectedRoute>
-            <Layout>
-              <DonationsPage />
             </Layout>
           </ProtectedRoute>
         } />

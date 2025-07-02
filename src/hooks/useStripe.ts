@@ -126,10 +126,47 @@ export function useStripe() {
     }
   }
 
+  const cancelSubscription = async () => {
+    setLoading(true)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session?.access_token) {
+        throw new Error('No authentication token found')
+      }
+
+      // You would need to create a cancel subscription endpoint
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-cancel-subscription`
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to cancel subscription')
+      }
+
+      toast.success('Subscription cancelled successfully')
+      return true
+    } catch (error: any) {
+      console.error('Cancel subscription error:', error)
+      toast.error(error.message || 'Failed to cancel subscription')
+      return false
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return {
     createCheckoutSession,
     getSubscription,
     getOrders,
+    cancelSubscription,
     loading
   }
 }

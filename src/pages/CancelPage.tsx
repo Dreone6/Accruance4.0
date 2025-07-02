@@ -16,9 +16,9 @@ export default function CancelPage() {
             <XCircle className="h-12 w-12 text-red-500" />
           </div>
           
-          <h1 className="text-3xl font-bold text-text mb-2">Payment Cancelled</h1>
+          <h1 className="text-3xl font-bold text-text mb-2">Subscription Cancelled</h1>
           <p className="text-muted mb-8">
-            Your payment was cancelled. No charges have been made to your account.
+            Your subscription setup was cancelled. No charges have been made to your account.
           </p>
         </motion.div>
 
@@ -30,11 +30,11 @@ export default function CancelPage() {
         >
           <h3 className="text-lg font-semibold text-text mb-4">What happened?</h3>
           <p className="text-muted text-sm mb-4">
-            You cancelled the payment process before it was completed. This could happen if:
+            You cancelled the subscription process before it was completed. This could happen if:
           </p>
           <ul className="text-left text-sm text-muted space-y-2">
             <li>• You clicked the back button or closed the payment window</li>
-            <li>• You decided not to complete the purchase</li>
+            <li>• You decided not to complete the subscription</li>
             <li>• There was a technical issue with the payment process</li>
           </ul>
         </motion.div>
@@ -45,14 +45,22 @@ export default function CancelPage() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="space-y-4"
         >
+          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+            <h4 className="font-medium text-blue-400 mb-2">Still interested?</h4>
+            <p className="text-sm text-muted">
+              You can still access all the powerful features of Accruance. Choose a plan that works for you 
+              and start managing your finances smarter.
+            </p>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={() => window.history.back()}
+            <Link
+              to="/#pricing"
               className="btn-primary inline-flex items-center justify-center"
             >
               <RefreshCw className="h-4 w-4 mr-2" />
-              Try Again
-            </button>
+              View Plans
+            </Link>
             
             <Link
               to="/dashboard"
@@ -65,7 +73,7 @@ export default function CancelPage() {
 
           <div className="pt-4">
             <p className="text-xs text-muted">
-              Having trouble? Contact our support team at{' '}
+              Questions about our plans? Contact us at{' '}
               <a href="mailto:support@accruance.com" className="text-primary-500 hover:text-primary-400">
                 support@accruance.com
               </a>
