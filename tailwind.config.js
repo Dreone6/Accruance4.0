@@ -23,6 +23,7 @@ export default {
         card: '#1e293b',
         text: '#f1f5f9',
         muted: '#64748b',
+        border: '#334155',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
