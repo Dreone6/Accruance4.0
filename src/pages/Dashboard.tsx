@@ -13,6 +13,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { formatCurrency } from '../lib/utils'
 import { useStripe } from '../hooks/useStripe'
 import { getProductByPriceId } from '../stripe-config'
+import FloatingSymbols from '../components/FloatingSymbols'
 
 const monthlyData = [
   { month: 'Jan', income: 5000, expenses: 3200 },
@@ -68,9 +69,12 @@ export default function Dashboard() {
   const currentPlan = subscription?.price_id ? getProductByPriceId(subscription.price_id) : null
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {/* Floating Financial Symbols */}
+      <FloatingSymbols />
+      
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between relative z-10">
         <div>
           <h1 className="text-2xl font-bold text-text">Dashboard</h1>
           <p className="text-muted">Welcome back! Here's your financial overview.</p>
@@ -91,7 +95,7 @@ export default function Dashboard() {
 
       {/* Subscription Status */}
       {!loadingSubscription && !subscription && (
-        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 relative z-10">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium text-blue-400 mb-1">Unlock Premium Features</h3>
@@ -110,7 +114,7 @@ export default function Dashboard() {
       )}
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
         <div className="card">
           <div className="flex items-center justify-between">
             <div>
@@ -181,7 +185,7 @@ export default function Dashboard() {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
         {/* Income vs Expenses Chart */}
         <div className="card">
           <div className="flex items-center justify-between mb-6">
@@ -272,7 +276,7 @@ export default function Dashboard() {
       </div>
 
       {/* Recent Transactions */}
-      <div className="card">
+      <div className="card relative z-10">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-text">Recent Transactions</h3>
           <button className="text-primary-500 hover:text-primary-400 text-sm">
